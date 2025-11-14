@@ -1,4 +1,11 @@
-function ResultCard({ contact, delay = 0 }) {
+import type { Contact } from '@/data/companiesData'
+
+interface ResultCardProps {
+  contact: Contact
+  delay?: number
+}
+
+function ResultCard({ contact, delay = 0 }: ResultCardProps) {
   const confidenceLevel = contact.confidence >= 85 
     ? 'high' 
     : contact.confidence >= 75
@@ -6,19 +13,19 @@ function ResultCard({ contact, delay = 0 }) {
     : 'low'
 
   const getConfidenceColor = () => {
-    if (confidenceLevel === 'high') return 'text-accent border-accent/40'
-    if (confidenceLevel === 'medium') return 'text-white/80 border-primary/50'
-    return 'text-white/60 border-primary/40'
+    if (confidenceLevel === 'high') return 'text-accent border-accent/50'
+    if (confidenceLevel === 'medium') return 'text-gray-800 border-gray-400'
+    return 'text-gray-600 border-gray-300'
   }
 
   return (
     <article 
       className={`
-        group border border-primary/30 rounded-lg p-5 md:p-6 
-        bg-background/60 backdrop-blur-sm
-        hover:border-accent/50 hover:shadow-glow-amber-subtle hover:bg-background/80
+        group border border-gray-200 rounded-xl p-5 md:p-6 
+        bg-white shadow-card
+        hover:border-accent/60 hover:shadow-glow-amber-subtle hover:scale-[1.01]
         transition-all duration-300 animate-fade-in-up
-        ${contact.confidence >= 85 ? 'border-accent/20' : ''}
+        ${contact.confidence >= 85 ? 'border-accent/30 bg-accent/[0.02]' : ''}
       `}
       style={{ 
         animationDelay: `${delay}ms`,
@@ -26,17 +33,17 @@ function ResultCard({ contact, delay = 0 }) {
     >
       <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-5">
         <div className="flex-1 min-w-0">
-          <h3 className="text-lg md:text-xl text-white font-light tracking-wide mb-2 group-hover:text-accent transition-colors duration-300">
+          <h3 className="text-lg md:text-xl text-gray-900 font-semibold tracking-normal mb-2 group-hover:text-accent transition-colors duration-300">
             {contact.name}
           </h3>
-          <p className="text-sm md:text-base text-white/80 tracking-wide mb-2 font-light">
+          <p className="text-sm md:text-base text-gray-700 tracking-wide mb-2 font-normal">
             {contact.jobTitle}
           </p>
-          <div className="flex flex-wrap items-center gap-3 mt-3">
-            <span className="text-xs text-white/60 tracking-wide px-2.5 py-1 border border-primary/40 rounded-md bg-primary/20">
+          <div className="flex flex-wrap items-center gap-2 mt-3">
+            <span className="text-xs text-gray-700 tracking-wide px-2.5 py-1 border border-gray-200 rounded-lg bg-gray-50">
               {contact.department}
             </span>
-            <span className="text-xs text-white/60 tracking-wide px-2.5 py-1 border border-primary/40 rounded-md bg-primary/20">
+            <span className="text-xs text-gray-700 tracking-wide px-2.5 py-1 border border-gray-200 rounded-lg bg-gray-50">
               {contact.seniority}
             </span>
           </div>
@@ -46,25 +53,25 @@ function ResultCard({ contact, delay = 0 }) {
         <div className="flex-shrink-0 md:ml-4">
           <div className="flex md:flex-col items-center md:items-end gap-3">
             <div className="text-right">
-              <span className={`text-xs md:text-sm tracking-wide font-light ${getConfidenceColor()}`}>
+              <span className={`text-sm md:text-base tracking-wide font-medium ${getConfidenceColor()}`}>
                 {contact.confidence}%
               </span>
-              <p className="text-xs text-white/50 tracking-wide mt-0.5">
+              <p className="text-xs text-gray-500 tracking-wide mt-0.5">
                 correspondance
               </p>
             </div>
-            <div className="w-20 md:w-24 h-2 bg-primary/50 rounded-full overflow-hidden">
+            <div className="w-20 md:w-24 h-2 bg-gray-100 rounded-full overflow-hidden">
               <div 
                 className={`h-full transition-all duration-700 ease-out ${
                   confidenceLevel === 'high' ? 'bg-accent' : 
-                  confidenceLevel === 'medium' ? 'bg-accent/70' : 
-                  'bg-accent/50'
+                  confidenceLevel === 'medium' ? 'bg-accent/80' : 
+                  'bg-gray-400'
                 }`}
                 style={{ width: `${contact.confidence}%` }}
                 role="progressbar"
                 aria-valuenow={contact.confidence}
-                aria-valuemin="0"
-                aria-valuemax="100"
+                aria-valuemin={0}
+                aria-valuemax={100}
                 aria-label={`${contact.confidence}% de correspondance`}
               ></div>
             </div>
@@ -73,11 +80,11 @@ function ResultCard({ contact, delay = 0 }) {
       </div>
 
       {/* Explication améliorée */}
-      <div className="mt-5 pt-5 border-t border-primary/20">
-        <p className="text-xs text-white/60 tracking-wide mb-3 font-light uppercase">
+      <div className="mt-5 pt-5 border-t border-gray-100">
+        <p className="text-xs text-gray-500 tracking-wide mb-3 font-medium uppercase">
           Pourquoi ce contact ?
         </p>
-        <p className="text-sm md:text-base text-white/80 tracking-wide leading-relaxed font-light">
+        <p className="text-sm md:text-base text-gray-700 tracking-wide leading-relaxed font-light">
           {contact.explanation}
         </p>
       </div>
@@ -87,14 +94,14 @@ function ResultCard({ contact, delay = 0 }) {
         <button
           aria-label={`Voir le profil de ${contact.name}`}
           className="
-            px-5 py-2.5 border border-primary/50 rounded-lg
-            text-xs md:text-sm text-white/80 tracking-wide font-light
-            hover:border-accent/60 hover:text-accent hover:bg-accent/5 
+            px-5 py-2.5 border border-gray-200 rounded-lg
+            text-xs md:text-sm text-gray-700 tracking-wide font-medium
+            hover:border-accent hover:text-accent hover:bg-accent/5 
             hover:shadow-glow-amber-subtle active:scale-[0.98]
             transition-all duration-300
             flex items-center gap-2
-            focus:outline-none focus:ring-2 focus:ring-accent/30 focus:ring-offset-2 
-            focus:ring-offset-background
+            focus:outline-none focus:ring-2 focus:ring-accent/40 focus:ring-offset-2 
+            focus:ring-offset-white
           "
         >
           <svg 
@@ -117,4 +124,3 @@ function ResultCard({ contact, delay = 0 }) {
 }
 
 export default ResultCard
-

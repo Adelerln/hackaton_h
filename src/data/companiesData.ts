@@ -1,5 +1,35 @@
+// Types pour les contacts et entreprises
+
+export type Product = 'Surfer H' | 'Agent Platform' | 'Holo 1.5'
+
+export type Seniority = 'Executive' | 'Senior' | 'Mid-Level' | 'Junior'
+
+export interface Contact {
+  id: number
+  name: string
+  firstName: string
+  lastName: string
+  jobTitle: string
+  department: string
+  seniority: Seniority
+  confidence: number
+  explanation: string
+  products: Product[]
+}
+
+export type ContactsByProduct = {
+  [key in Product]?: Contact[]
+}
+
+export interface Company {
+  id: number
+  name: string
+  sector: string
+  country: string
+  contacts: ContactsByProduct
+}
 // Données des entreprises et leurs contacts personnalisés par produit
-export const companiesData = [
+export const companiesData: Company[] = [
   {
     id: 1,
     name: 'BNP Paribas',
@@ -1543,5 +1573,5 @@ export const companiesData = [
 ]
 
 // Liste des produits disponibles
-export const products = ['Surfer H', 'Agent Platform', 'Holo 1.5']
+export const products: Product[] = ['Surfer H', 'Agent Platform', 'Holo 1.5']
 

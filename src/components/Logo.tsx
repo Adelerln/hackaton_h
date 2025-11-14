@@ -8,7 +8,7 @@ function Logo() {
         viewBox="0 0 36 40" 
         fill="none" 
         xmlns="http://www.w3.org/2000/svg"
-        className="text-white"
+        className="text-accent"
       >
         {/* Barre verticale gauche avec courbe en crochet vers l'intérieur en bas */}
         <path 
@@ -39,7 +39,7 @@ function Logo() {
       </svg>
       
       {/* Texte HOOK */}
-      <span className="text-white text-xl font-light tracking-wider">
+      <span className="text-gray-900 text-xl font-semibold tracking-wide">
         HOOK
       </span>
     </div>
@@ -47,4 +47,3 @@ function Logo() {
 }
 
 export default Logo
-
